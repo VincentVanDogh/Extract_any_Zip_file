@@ -22,6 +22,8 @@ def read_file(path: str, new_dir: str) -> List[str]:
     :return String of the read file
 
     """
+    path = path.replace("/", "\\")
+
     if ".7z" not in path and ".zip" not in path:
         try:
             with open(path, "r", encoding="utf-8", errors="ignore") as file:
@@ -77,9 +79,19 @@ def read_file(path: str, new_dir: str) -> List[str]:
 
 
 if __name__ == "__main__":
+    # Example:
     # print(read_file(r'resources\test.zip\test.txt', 'output'))
 
-    if len(sys.argv) < 2:
-        print("Please provide at least two arguments:\n"
-              "1. Path of the file within a zip-file\n"
-              "2. Directory of extracted files")
+    if ".7z" in sys.argv[1] or ' ' in sys.argv[1]:
+        if len(sys.argv) < 3:
+            print("Please provide at least two arguments:\n"
+                  "1. Path of the file within a zip-file\n"
+                  "2. Directory of extracted files")
+        else:
+            print(read_file(sys.argv[1], sys.argv[2]))
+    else:
+        if len(sys.argv) < 2:
+            print("Please provide at least one argument:\n"
+                  "1. Path of the file within a zip-file")
+        else:
+            print(read_file(sys.argv[1], None))
